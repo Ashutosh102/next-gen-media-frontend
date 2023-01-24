@@ -7,6 +7,8 @@ import profileimage from "../Images/Profile.png"
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import app from '../../firebase';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default function ContentPost() {
   const userDetails = useSelector((state)=>state.user);
@@ -52,7 +54,16 @@ export default function ContentPost() {
     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       fetch(`http://localhost:5000/api/post/user/post` , {method:"POST" , headers:{'Content-Type':"application/JSON", token : accessToken} , body:JSON.stringify({title:title , image:downloadURL , video:''})}).then((data)=>{
-        alert("Your Post was upload successfully");
+        // alert("Your Post was upload successfully");
+        toast.success("✅Your Post was upload successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         window.location.reload(true)
       })
     });
@@ -86,7 +97,15 @@ export default function ContentPost() {
     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       fetch(`http://localhost:5000/api/post/user/post` , {method:"POST" , headers:{'Content-Type':"application/JSON", token : accessToken} , body:JSON.stringify({title:title , video:downloadURL , image:''})}).then((data)=>{
-        alert("Your Post was upload successfully");
+        toast.success("✅Your Post was upload successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         window.location.reload(true)
       })
     });
@@ -94,7 +113,15 @@ export default function ContentPost() {
 );
 }else{
   fetch(`http://localhost:5000/api/post/user/post` , {method:"POST" , headers:{'Content-Type':"application/JSON", token : accessToken} , body:JSON.stringify({title:title , video:'' , image:''})}).then((data)=>{
-    alert("Your Post was upload successfully");
+    toast.success("✅Your Post was upload successfully", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     window.location.reload(true)
   })
 }
@@ -103,6 +130,18 @@ export default function ContentPost() {
   }
   return (
     <div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          theme="dark"
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       <div className='ContentUploadContainer'>
         <div style={{ display: "flex", alignItems: "center", padding: 10 }}>
           <img src={`${user?.other?.profile}`} className="profileimage" alt="" />
@@ -134,3 +173,4 @@ export default function ContentPost() {
     </div>
   )
 }
+
